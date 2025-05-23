@@ -1,0 +1,31 @@
+
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<select id="filterType">
+  <option value="all">All Types</option>
+  <option value="EEG">EEG</option>
+  <option value="fMRI">fMRI</option>
+</select>
+<input type="text" id="searchBox" placeholder="Search...">
+<ul id="datasetList">
+  {% for dataset in datasets %}
+    <li data-type="{{ dataset.type }}" data-name="{{ dataset.name | lower }}" data-desc="{{ dataset.description | lower }}">
+      <a href="/dataset/{{ dataset.id }}">{{ dataset.name }}</a>: {{ dataset.description }}
+    </li>
+  {% endfor %}
+</ul>
+<script>
+function updateList() {
+  const type = document.getElementById('filterType').value;
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  document.querySelectorAll('#datasetList li').forEach(li => {
+    const matchesType = (type === 'all' || li.dataset.type === type);
+    const matchesSearch = li.dataset.name.includes(search) || li.dataset.desc.includes(search);
+    li.style.display = (matchesType && matchesSearch) ? '' : 'none';
+  });
+}
+document.getElementById('filterType').addEventListener('change', updateList);
+document.getElementById('searchBox').addEventListener('input', updateList);
+</script>
+{% endblock %}

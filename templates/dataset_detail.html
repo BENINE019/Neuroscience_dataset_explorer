@@ -1,0 +1,29 @@
+
+{% extends "layout.html" %}
+{% block title %}{{ dataset.name }}{% endblock %}
+{% block content %}
+  <h2>{{ dataset.name }}</h2>
+  <p><strong>Type:</strong> {{ dataset.type }}</p>
+  <p>{{ dataset.description }}</p>
+  <p><a href="{{ dataset.link }}" target="_blank">View Dataset</a></p>
+  <label for="channel">Choose EEG channel:</label>
+  <select id="channel">
+    <option value="fp1">FP1</option>
+    <option value="f3">F3</option>
+  </select>
+  <div id="eeg_plot"></div>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script>
+  function loadEEG(channel) {
+    fetch(`/eeg/${channel}`).then(r => r.json()).then(data => {
+      Plotly.newPlot('eeg_plot', [{
+        x: data.timestamp,
+        y: data.value,
+        type: 'scatter'
+      }], { title: `EEG Channel: ${channel.toUpperCase()}` });
+    });
+  }
+  document.getElementById('channel').addEventListener('change', e => loadEEG(e.target.value));
+  loadEEG('fp1');
+  </script>
+{% endblock %}
