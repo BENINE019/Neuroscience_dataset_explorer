@@ -1,0 +1,17 @@
+[
+    {
+      "id": "deap",
+      "name": "DEAP Dataset",
+      "type": "EEG",
+      "description": "EEG signals recorded for emotion analysis.",
+      "link": "https://www.eecs.qmul.ac.uk/mmv/datasets/deap/"
+    },
+    {
+      "id": "openneuro_ds",
+      "name": "OpenNeuro fMRI Dataset",
+      "type": "fMRI",
+      "description": "Functional MRI data for cognitive task analysis.",
+      "link": "https://openneuro.org/datasets/ds000001"
+    }
+  ]
+  
